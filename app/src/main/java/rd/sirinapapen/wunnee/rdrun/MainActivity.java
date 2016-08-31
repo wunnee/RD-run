@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     //Explicit
     private ImageView imageView;
     private EditText userEditText, passwordEditText;
+    private String userString, passwordString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void clickSignInMain(View view) {
+
+        userString = userEditText.getText().toString().trim();
+        passwordString = passwordEditText.getText().toString().trim();
+
+        //Check Space
+        if (userString.equals("") || passwordString.equals("")) {
+            //Have Space
+            MyAlert myAlert = new MyAlert();
+            myAlert.myDialog(this, R.drawable.rat48,"Have Space",
+                    "Please Fill All Every Blank");
+
+        } else {
+        }
 
 
     }
