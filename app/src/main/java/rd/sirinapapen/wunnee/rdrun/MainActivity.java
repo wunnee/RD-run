@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         //Explicit
         private Context context;
         private String myUserString, myPasswordString, truePasswordString
-                ,nameString, surnameString, idString;
+                ,nameString, surnameString, idString, avataString;
         private static final String urlJSON = "http://swiftcodingthai.com/rd/get_user_master.php";
         private boolean statusABoolean = true;
 
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                         truePasswordString = jsonObject.getString("Password");
                         nameString = jsonObject.getString("Surname");
                         idString = jsonObject.getString("id");
+                        avataString = jsonObject.getString("Avata");
 
 
 
@@ -110,8 +111,12 @@ public class MainActivity extends AppCompatActivity {
                 } else if (myPasswordString.equals(truePasswordString)) {
                     //Password True
                     Intent intent = new Intent(MainActivity.this, ServiceActivity.class);
-                    startActivity(intent);
+                    intent.putExtra("id", idString); // ส่ง data เข้าไปกับการ intent
+                    intent.putExtra("Avata", avataString);
+                    intent.putExtra("Name", nameString);
+                    intent.putExtra("Surname", surnameString);
 
+                    startActivity(intent);
 
                     Toast.makeText(context, "Welcome" + nameString + " " + surnameString,
                             Toast.LENGTH_SHORT).show();
