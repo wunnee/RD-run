@@ -22,13 +22,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class ServiceActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private String idstring,avataString, nameString, surnameString;
+    private String idstring;
+    ,avataString;,nameString;,surnameString;
     private ImageView imageView;
-    private TextView nameTextView, surnameTextView;
+    private TextView nameTextView;
+    ,surnameTextView;
     private int[] avataInts;
-    private double userLatADouble = 13.806821, userLngADouble = 100.574754; //Connection
+    private double userLatADouble = 13.806821;
+    ,userLngADouble=100.574754; //Connection
     private LocationManager locationManager;
     private Criteria criteria;
+
 
 
 
@@ -91,7 +95,6 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
         }
 
 
-
     }// onResume
 
     @Override
@@ -144,19 +147,15 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
     };
 
 
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-     //Setup Center of Map
+        //Setup Center of Map
         LatLng latLng = new LatLng(userLatADouble, userLngADouble);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
 
         //Loop
         myLoop();
-
-
 
 
     }// onMap
@@ -174,7 +173,7 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
                 myLoop();
 
             }
-        },1000);
+        }, 1000);
 
     } //myloop
 
