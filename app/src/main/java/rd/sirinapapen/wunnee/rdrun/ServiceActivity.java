@@ -19,6 +19,7 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
     private ImageView imageView;
     private TextView nameTextView, surnameTextView;
     private int[] avataInts;
+    private double userLatADouble = 13.806821, userLngADouble = 100.574754; //Connection
 
 
 
@@ -37,6 +38,7 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
         avataString = getIntent().getStringExtra("Avata");
         nameString = getIntent().getStringExtra("Name");
         surnameString = getIntent().getStringExtra("Surname");
+
         //Show text
         nameTextView.setText(nameString);
         surnameTextView.setText(surnameString);
@@ -57,11 +59,10 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+     //Setup Center of Map
+        LatLng latLng = new LatLng(userLatADouble, userLngADouble);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }// onMap
 
 }// Main Class
