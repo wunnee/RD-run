@@ -1,10 +1,17 @@
 package rd.sirinapapen.wunnee.rdrun;
 
+import android.content.Context;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,6 +27,8 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
     private TextView nameTextView, surnameTextView;
     private int[] avataInts;
     private double userLatADouble = 13.806821, userLngADouble = 100.574754; //Connection
+    private LocationManager locationManager;
+    private Criteria criteria;
 
 
 
@@ -39,6 +48,14 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
         nameString = getIntent().getStringExtra("Name");
         surnameString = getIntent().getStringExtra("Surname");
 
+        //Setup Location
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+
+
         //Show text
         nameTextView.setText(nameString);
         surnameTextView.setText(surnameString);
@@ -55,6 +72,79 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
         mapFragment.getMapAsync(this);
     }// Main Method
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        locationManager.removeUpdates(locationListener);
+
+        Location networkLocation = myFindLocation(LocationManager.NETWORK_PROVIDER);
+        if (networkLocation != null) {
+            userLatADouble = networkLocation.getLatitude();
+            userLngADouble = networkLocation.getLongitude();
+
+        }
+        Location gpsLocation = myFindLocation(LocationManager.GPS_PROVIDER);
+        if (gpsLocation != null) {
+            userLatADouble = gpsLocation.getLatitude();
+            userLngADouble = gpsLocation.getLongitude();
+
+        }
+
+
+
+    }// onResume
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        locationManager.removeUpdates(locationListener);
+
+
+    }
+
+    public Location myFindLocation(String strProvider) {
+
+        Location location = null;
+        if (locationManager.isProviderEnabled(strProvider)) {
+
+            locationManager.requestLocationUpdates(strProvider, 1000, 10, locationListener);
+            location = locationManager.getLastKnownLocation(strProvider);
+
+        } else {
+            Log.d("1SepV1", "Cannot find Location");
+        }
+
+        return location;
+    }
+
+    public android.location.LocationListener locationListener = new android.location.LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+
+            userLatADouble = location.getLatitude();
+            userLngADouble = location.getLongitude();
+
+
+        }// onLocationChange
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+    };
+
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -63,6 +153,29 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
         LatLng latLng = new LatLng(userLatADouble, userLngADouble);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
 
+        //Loop
+        myLoop();
+
+
+
+
     }// onMap
+
+    private void myLoop() {
+        //To Do
+        Log.d("1SepV2", "Lat ==> " + userLatADouble);
+        Log.d("1SepV2", "Lng ==> " + userLngADouble);
+
+        //Post Delay
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                myLoop();
+
+            }
+        },1000);
+
+    } //myloop
 
 }// Main Class
