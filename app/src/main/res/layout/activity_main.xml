@@ -37,7 +37,7 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="false"
+
         android:layout_centerHorizontal="true"
         android:padding="20dp"
         android:gravity="center_horizontal"
@@ -72,5 +72,19 @@
             android:inputType="textPassword"
             android:hint="Password"
             android:textColor="@color/text" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save Login"
+                android:id="@+id/checkBox"
+                android:textColor="@color/text"
+                android:textSize="@dimen/h2" />
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
